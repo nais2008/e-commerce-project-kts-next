@@ -1,0 +1,60 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.view_title {
+  @include mixins.fluid-font(32px, 44px);
+  font-weight: bold;
+  line-height: 1.2;
+  width: min(300px, 90%);
+  text-align: center;
+}
+
+.view_button {
+  @include mixins.fluid-font(16px, 18px);
+  font-weight: 400;
+}
+
+.view_subtitle {
+  @include mixins.fluid-font(20px, 24px);
+}
+
+.view_desc {
+  @include mixins.fluid-font(18px, 20px);
+}
+
+.view_paragraph {
+  @include mixins.fluid-font(16px, 16px);
+}
+
+.weight_medium {
+  font-weight: 500;
+}
+
+.weight_bold {
+  font-weight: 700;
+}
+
+.color_primary {
+  color: var(--primary-color);
+}
+
+.color_secondary {
+  color: var(--secondary-color);
+}
+
+.color_accent {
+  color: var(--accent-color);
+}
+
+.ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.heading {
+  &::selection {
+    background-color: var(--accent-color-light);
+    color: var(--primary-color);
+  }
+}

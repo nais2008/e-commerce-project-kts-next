@@ -1,0 +1,22 @@
+@use "@/styles/variables" as *;
+
+.discountPrice {
+  display: flex;
+  align-items: center;
+  gap: $spacing-8;
+  flex-wrap: wrap;
+
+  &__price_old {
+    text-decoration: line-through;
+  }
+  &__discount {
+    position: absolute;
+    z-index: $z-index-10;
+    left: 5px;
+    top: 5px;
+    background-color: var(--accent-color-dark);
+    padding: $spacing-8;
+    border-radius: $border-radius;
+    color: $text-color-static;
+  }
+}

@@ -1,0 +1,24 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.notFound {
+  @include center();
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  min-height: 100%;
+  padding-inline: $spacing-8;
+
+  &__title {
+    font-size: 80px;
+  }
+  &__link {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

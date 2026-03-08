@@ -1,0 +1,118 @@
+@use "@/styles/variables" as *;
+
+@mixin media-max-width($breakpoint) {
+  @media screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin container($margin-block: 0) {
+  max-width: 1240px;
+  margin: $margin-block auto;
+  @content;
+
+  @include media-max-width($breakpoint-xl) {
+    padding-inline: $spacing-20;
+  }
+}
+
+@mixin gridContainer() {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, 320px);
+  justify-content: space-between;
+  gap: 80px 10px;
+  width: 100%;
+
+  @include media-max-width($breakpoint-xl) {
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: $spacing-20;
+  }
+}
+
+@mixin fluid-font(
+  $min-size,
+  $max-size,
+  $min-width: $breakpoint-s,
+  $max-width: $breakpoint-xl
+) {
+  $slope: calc(($max-size - $min-size) / ($max-width - $min-width));
+  $intercept: $min-size - $slope * $min-width;
+
+  font-size: clamp(
+    #{$min-size},
+    calc(#{$intercept} + #{$slope * 100}vw),
+    #{$max-size}
+  );
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin form($form-name, $has-padding-block: true) {
+  width: 100%;
+  @if $has-padding-block {
+    padding-block: $spacing-20;
+  }
+
+  #{$form-name}__link {
+    color: var(--accent-color-dark);
+    cursor: pointer;
+  }
+  #{$form-name}__field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  #{$form-name}__field_link {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    &:has(> :nth-child(3)) {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 4px;
+    }
+    & > a {
+      color: var(--secondary-color);
+
+      @include media-max-width($breakpoint-s) {
+        padding: $spacing-8;
+        font-size: 14px;
+      }
+    }
+  }
+  #{$form-name}__btns {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+
+    & > button {
+      flex: 1;
+      width: 100%;
+      padding: 10px 15px;
+
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+  #{$form-name}__btn {
+    padding: $spacing-12 $spacing-16;
+
+    p {
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@use "@/styles/variables" as *;
+
+.cartItem {
+  display: flex;
+  gap: $spacing-20;
+  padding: $spacing-16;
+  background: var(--back-color-second);
+  border-radius: $border-radius;
+  box-shadow: var(--shadow);
+
+  &__details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+  }
+
+  &__quantity {
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+    margin-top: $spacing-8;
+  }
+}

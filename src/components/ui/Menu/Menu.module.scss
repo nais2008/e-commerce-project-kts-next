@@ -1,0 +1,101 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins";
+
+.menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &__toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: $spacing-8;
+    z-index: 20;
+    color: var(--primary-color);
+
+    @include mixins.media-max-width($breakpoint-l) {
+      display: block;
+    }
+  }
+  &__list {
+    display: flex;
+    gap: $spacing-24;
+
+    @include mixins.media-max-width($breakpoint-l) {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--back-color-second);
+      flex-direction: column;
+      gap: 0;
+      width: clamp(100px, 100%, 200px);
+      border-radius: $border-radius;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s;
+      z-index: 10;
+      overflow: hidden;
+      border: 1px solid var(--back-color);
+    }
+  }
+
+  &__list_open {
+    @include mixins.media-max-width($breakpoint-l) {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
+  &__item {
+    user-select: none;
+    text-decoration: none;
+    transition: background 0.2s;
+    width: 100%;
+    padding: $spacing-12;
+    color: var(--primary-color);
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      height: 2px;
+      border-radius: 20px;
+      background: currentColor;
+      position: absolute;
+      left: 50%;
+      bottom: -14px;
+      width: 0;
+      transition:
+        width 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),
+        left 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    &:hover::after {
+      left: 0;
+      width: 100%;
+    }
+    &_active {
+      color: var(--accent-color-dark);
+      font-weight: 600;
+    }
+
+    @include mixins.media-max-width($breakpoint-l) {
+      &::after {
+        height: 0;
+      }
+      @media (hover: hover) {
+        &:hover {
+          background: var(--back-color);
+        }
+      }
+      @media (hover: none) {
+        &:active {
+          background: var(--back-color);
+        }
+      }
+    }
+  }
+}

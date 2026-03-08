@@ -1,0 +1,24 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins";
+
+.cartBlock {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &__countItems {
+    position: absolute;
+    top: -12px;
+    right: -10px;
+    background-color: var(--accent-color-dark);
+    color: $text-color-static;
+    padding: calc($spacing-4 - 2px) $spacing-4;
+    font-size: 12px;
+
+    &_empty {
+      padding: 0;
+    }
+  }
+}

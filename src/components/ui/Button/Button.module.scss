@@ -1,0 +1,50 @@
+@use "@/styles/variables" as *;
+
+.btn {
+  background: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-8;
+  padding: $spacing-16 $spacing-20;
+  color: $text-color-static;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+  border-radius: $border-radius;
+
+  &__loader {
+    border-color: $text-color-static;
+    border-right-color: transparent;
+  }
+
+  &_primary {
+    background-color: var(--back-color-second);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  @media (hover: hover) {
+    &:not(&:disabled):hover {
+      background: var(--accent-color-light);
+      color: $text-color-static;
+      border-color: transparent;
+    }
+  }
+  &:not(&:disabled):active {
+    background-color: var(--accent-color-dark);
+    color: $text-color-static;
+    border-color: transparent;
+  }
+
+  &:disabled {
+    background: var(--disabled-color);
+    color: var(--secondary-color);
+    cursor: not-allowed;
+    border-color: transparent;
+  }
+}

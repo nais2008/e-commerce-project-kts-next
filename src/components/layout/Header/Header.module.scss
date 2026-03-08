@@ -1,0 +1,43 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.header {
+  width: 100%;
+  background-color: var(--back-color-second);
+  padding-block: $spacing-12;
+  border-bottom: 2px solid
+    color-mix(in srgb, var(--secondary-color), var(--back-color-second) 80%);
+
+  &__container {
+    @include mixins.container() {
+      display: grid;
+      grid-template-columns: 3fr 10fr 3fr;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__logo {
+    justify-content: flex-start;
+  }
+
+  &__navigation {
+    justify-content: center;
+  }
+  &__right {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: $spacing-12;
+
+    @include mixins.media-max-width($breakpoint-s) {
+      flex-direction: column;
+    }
+  }
+  &__icons {
+    display: flex;
+    align-items: center;
+    gap: $spacing-12;
+    cursor: pointer;
+  }
+}
