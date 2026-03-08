@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import Script from "next/script"
 
 import HeadProvider from "@/providers/HeadProvider"
 
@@ -30,23 +29,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <Script
-          id="theme-script"
-          strategy="beforeInteractive"
+        <script
           dangerouslySetInnerHTML={{
-            __html: `
-(function () {
-  try {
-    var theme = localStorage.getItem("app-theme") || "auto";
-    var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    var resolved = theme === "auto" ? (prefersDark ? "dark" : "light") : theme;
-    document.documentElement.classList.add(resolved + "-theme");
-    document.documentElement.style.colorScheme = resolved;
-  } catch (e) {}
-})();
-`,
+            __html: `(function(){try{var theme=localStorage.getItem("app-theme")||"auto";var prefersDark=window.matchMedia("(prefers-color-scheme: dark)").matches;var resolved=theme==="auto"?(prefersDark?"dark":"light"):theme;document.documentElement.classList.add(resolved+"-theme");document.documentElement.style.colorScheme=resolved;}catch(e){}})();`,
           }}
         />
       </head>
