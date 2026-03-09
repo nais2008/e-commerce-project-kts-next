@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# e-commerce-project-kts
 
-## Getting Started
+> [!WARNING]
+> предполагается что все действия будут происходить из корня проекта
 
-First, run the development server:
+## Клонирование репозитория
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```cmd
+git clone https://github.com/nais2008/e-commerce-project-kts-next
+cd ./e-commerce-project-kts-next
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Заполнение переменных среды
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Создание файла
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```cmd
+touch .env
+```
 
-## Learn More
+### Заполняем
 
-To learn more about Next.js, take a look at the following resources:
+```env
+VITE_NEXT_PUBLIC_STRAPI_TOKENSTRAPI_TOKEN=your_strapi_token
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Установка зависимостей
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```cmd
+npm install
+```
 
-## Deploy on Vercel
+## Запуск
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```cmd
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Вид приложения
+
+![image](dock/image.png)
