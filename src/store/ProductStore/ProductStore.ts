@@ -1,8 +1,8 @@
 import { queryClient } from "@/api/reactQuery"
-import { action, computed, makeObservable, observable } from "mobx"
 import { getProductById } from "@/services/products"
 import type { ILocalStore } from "@/shared/interface/localStore.interface"
 import MobxQuery from "@/store/globals/mobxQuery"
+import { action, computed, makeObservable, observable } from "mobx"
 
 type PrivateField = "_productQuery"
 

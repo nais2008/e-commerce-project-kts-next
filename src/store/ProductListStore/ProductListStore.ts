@@ -1,5 +1,4 @@
 import { queryClient } from "@/api/reactQuery"
-import { action, computed, makeObservable, observable } from "mobx"
 import { getProducts } from "@/services/products"
 import type { ILocalStore } from "@/shared/interface/localStore.interface"
 import {
@@ -7,6 +6,7 @@ import {
   normalizeCollection,
 } from "@/shared/type/collection.type"
 import MobxInfiniteQuery from "@/store/globals/mobxInfiniteQuery"
+import { action, computed, makeObservable, observable } from "mobx"
 
 const PAGE_SIZE = 9
 type PrivateFields = "_productListQuery"

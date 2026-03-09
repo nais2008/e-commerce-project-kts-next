@@ -3,7 +3,8 @@
 
 .view_title {
   @include mixins.fluid-font(32px, 44px);
-  font-weight: bold;
+  font-weight: 700;
+  font-variation-settings: "wght" 800;
   line-height: 1.2;
   width: min(300px, 90%);
   text-align: center;
@@ -12,6 +13,7 @@
 .view_button {
   @include mixins.fluid-font(16px, 18px);
   font-weight: 400;
+  font-variation-settings: "wght" 400;
 }
 
 .view_subtitle {
@@ -28,10 +30,12 @@
 
 .weight_medium {
   font-weight: 500;
+  font-variation-settings: "wght" 600;
 }
 
 .weight_bold {
   font-weight: 700;
+  font-variation-settings: "wght" 800;
 }
 
 .color_primary {

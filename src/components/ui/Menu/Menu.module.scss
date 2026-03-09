@@ -80,6 +80,7 @@
     &_active {
       color: var(--accent-color-dark);
       font-weight: 600;
+      font-variation-settings: "wght" 700;
     }
 
     @include mixins.media-max-width($breakpoint-l) {

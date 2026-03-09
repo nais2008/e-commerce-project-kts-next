@@ -1,0 +1,19 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-24;
+
+  &__items {
+    @include mixins.gridContainer();
+  }
+  &__title {
+    display: flex;
+    gap: $spacing-20;
+  }
+  &__totalProducts {
+    vertical-align: text-top;
+  }
+}

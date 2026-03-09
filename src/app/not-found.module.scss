@@ -11,6 +11,8 @@
 
   &__title {
     font-size: 80px;
+    animation: changeWeight 2s infinite alternate
+      cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   &__link {
     display: flex;
@@ -20,5 +22,14 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+@keyframes changeWeight {
+  from {
+    font-variation-settings: "wght" 100;
+  }
+  to {
+    font-variation-settings: "wght" 700;
   }
 }

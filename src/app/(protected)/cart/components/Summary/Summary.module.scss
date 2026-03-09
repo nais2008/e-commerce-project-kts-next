@@ -1,0 +1,23 @@
+@use "@/styles/variables" as *;
+
+.summary {
+  flex: 1;
+  position: relative;
+
+  &__container {
+    position: sticky;
+    top: $spacing-20;
+    padding: $spacing-20;
+    background: var(--back-color-second);
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-16;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+  }
+}

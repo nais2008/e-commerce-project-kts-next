@@ -1,4 +1,5 @@
 import React from "react"
+import "react-loading-skeleton/dist/skeleton.css"
 import "react-toastify/dist/ReactToastify.css"
 
 import Toastify from "@/components/utils/Toastify"

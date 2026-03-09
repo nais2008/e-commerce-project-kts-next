@@ -1,0 +1,8 @@
+@use "@/styles/variables" as *;
+
+.cartList {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-20;
+}

@@ -3,16 +3,17 @@
 import React, { useCallback } from "react"
 import { toast } from "react-toastify"
 
-import classNames from "classnames"
+import Image from "next/image"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+
 import { ROUTES } from "@/constants/routes"
 import { useAuthStore } from "@/hooks/globalStores"
+import classNames from "classnames"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { observer } from "mobx-react-lite"
 
 import s from "./UserBlock.module.scss"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-import Link from "next/link"
 
 interface Props {
   className?: string
@@ -46,6 +47,8 @@ const UserBlock: React.FC<Props> = observer(({ className }) => {
     router.push(ROUTES.login.create())
     closeMenu()
   }, [authStore, closeMenu, router])
+
+  console.log(authStore.isAuthenticated)
 
   return (
     <>

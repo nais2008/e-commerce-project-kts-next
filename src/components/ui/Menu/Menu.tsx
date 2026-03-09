@@ -2,13 +2,14 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react"
 
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+
 import classNames from "classnames"
 import { MenuIcon } from "lucide-react"
 import { match } from "path-to-regexp"
 
 import s from "./Menu.module.scss"
-import { usePathname } from "next/navigation"
-import Link from "next/link"
 
 type MenuItem = {
   name: string
@@ -22,7 +23,7 @@ type MenuProps = {
 }
 
 const Menu: React.FC<MenuProps> = ({ items, className, icon = null }) => {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)

@@ -1,11 +1,12 @@
-import classNames from "classnames"
+import Image from "next/image"
+import Link from "next/link"
+
 import { ROUTES } from "@/constants/routes"
+import classNames from "classnames"
 
 import Heading from "@/components/ui/Heading"
 
 import s from "./Logo.module.scss"
-import Link from "next/link"
-import Image from "next/image"
 
 type LogoProps = {
   withTitle?: boolean

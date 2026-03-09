@@ -1,5 +1,5 @@
-import axios, { AxiosError } from "axios"
 import type { ApiErrorResponse } from "@/shared/interface/apiResponse.interface"
+import axios, { AxiosError } from "axios"
 
 const STRAPI_BASE_URL = "https://front-school-strapi.ktsdev.ru"
 const STRAPI_URL = `${STRAPI_BASE_URL}/api`

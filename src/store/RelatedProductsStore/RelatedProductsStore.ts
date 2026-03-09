@@ -1,6 +1,4 @@
 import { queryClient } from "@/api/reactQuery"
-import type { AxiosError } from "axios"
-import { action, computed, makeObservable, observable } from "mobx"
 import { getProducts } from "@/services/products"
 import type { ILocalStore } from "@/shared/interface/localStore.interface"
 import {
@@ -8,6 +6,8 @@ import {
   normalizeCollection,
 } from "@/shared/type/collection.type"
 import MobxQuery from "@/store/globals/mobxQuery"
+import type { AxiosError } from "axios"
+import { action, computed, makeObservable, observable } from "mobx"
 
 type PrivateFields = "_query"
 

@@ -59,7 +59,7 @@ class MobxMutation<
     variables: TVariables,
     options?: MutateOptions<TData, TError, TVariables, TContext>
   ) {
-    return this.mutationObserver.mutate(variables, options)
+    return this.mutationObserver.mutate(variables, options).catch(() => {})
   }
 
   private unsubscribe = () => {}

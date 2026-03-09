@@ -1,6 +1,4 @@
 import { queryClient } from "@/api/reactQuery"
-import type { AxiosError } from "axios"
-import { action, computed, makeObservable, observable } from "mobx"
 import { getProfile, login, register } from "@/services/auth"
 import type { AuthResponse } from "@/shared/interface/apiResponse.interface"
 import type {
@@ -10,6 +8,8 @@ import type {
 import type { ILocalStore } from "@/shared/interface/localStore.interface"
 import MobxMutation from "@/store/globals/mobxMutation"
 import MobxQuery from "@/store/globals/mobxQuery"
+import type { AxiosError } from "axios"
+import { action, computed, makeObservable, observable } from "mobx"
 
 type PrivateFields =
   | "_loginMutation"
@@ -19,13 +19,17 @@ type PrivateFields =
   | "_setToken"
 
 class AuthStore implements ILocalStore {
-  private _jwt: string | null = null
+  private _jwt: string | null = (() => {
+    const token = localStorage.getItem("jwt")
+    return token && token !== "null" ? token : null
+  })()
 
   private _loginMutation = new MobxMutation(
     () => ({
       mutationKey: ["auth", "login"],
       mutationFn: login,
       onSuccess: (data: AuthResponse) => this._setToken(data.jwt),
+      onError: () => {},
     }),
     queryClient
   )
@@ -35,6 +39,7 @@ class AuthStore implements ILocalStore {
       mutationKey: ["auth", "register"],
       mutationFn: register,
       onSuccess: (data: AuthResponse) => this._setToken(data.jwt),
+      onError: () => {},
     }),
     queryClient
   )
@@ -87,7 +92,7 @@ class AuthStore implements ILocalStore {
   logout() {
     localStorage.removeItem("jwt")
     this._jwt = null
-    queryClient.invalidateQueries({ queryKey: ["me"] })
+    queryClient.invalidateQueries({ queryKey: ["auth", "me"] })
   }
 
   get isAuthenticated(): boolean {

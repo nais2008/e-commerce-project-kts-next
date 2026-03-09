@@ -1,9 +1,10 @@
+import Link from "next/link"
+
 import { ROUTES } from "@/constants/routes"
 
 import Heading from "@/components/ui/Heading"
 
 import s from "./Footer.module.scss"
-import Link from "next/link"
 
 const Footer = () => {
   const year =

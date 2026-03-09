@@ -1,0 +1,15 @@
+@use "@/styles/variables" as *;
+
+.title {
+  display: flex;
+  place-content: center;
+
+  &__container {
+    max-width: 650px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    gap: $spacing-20;
+  }
+}

@@ -3,8 +3,8 @@
 import React from "react"
 
 import ReactQueryProvider from "./ReactQueryProvider"
-import { ThemeProvider } from "./ThemeProvider"
 import { RootStoreProvider } from "./RootStoreProvider"
+import { ThemeProvider } from "./ThemeProvider"
 
 interface HeadProviderProps {
   children: React.ReactNode

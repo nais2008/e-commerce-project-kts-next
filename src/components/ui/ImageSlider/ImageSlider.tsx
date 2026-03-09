@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from "react"
 
+import Image from "next/image"
+
 import type { IImage } from "@/shared/interface/image.interface"
 import classNames from "classnames"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -53,10 +55,13 @@ const ImageSlider: React.FC<Props> = ({ images }) => {
     >
       {images.map((image) => (
         <SwiperSlide key={image.id}>
-          <img
+          <Image
             src={getImageUrl(image)}
             alt={image.alternativeText || ""}
             className={s.slider__image}
+            width={1000}
+            height={1000}
+            loading="eager"
           />
         </SwiperSlide>
       ))}

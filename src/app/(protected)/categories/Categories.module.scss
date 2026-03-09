@@ -1,0 +1,15 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-40;
+  width: 100%;
+  @include mixins.container($spacing-40);
+
+  &__items {
+    @include mixins.gridContainer();
+    overflow: visible !important;
+  }
+}

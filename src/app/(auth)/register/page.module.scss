@@ -1,0 +1,9 @@
+@use "@/styles/mixins";
+
+.registerForm {
+  @include mixins.form(".registerForm");
+
+  &__center {
+    @include mixins.center;
+  }
+}

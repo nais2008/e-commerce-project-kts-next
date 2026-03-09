@@ -7,9 +7,9 @@ import { type ThemeValue, useTheme } from "@/providers/ThemeProvider"
 import DropDown from "../DropDown"
 
 const themeOptions = [
-  { value: "light", label: "Светлая" },
-  { value: "dark", label: "Темная" },
-  { value: "auto", label: "Авто" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "auto", label: "Auto" },
 ]
 
 const ThemeSwitcher: React.FC = () => {

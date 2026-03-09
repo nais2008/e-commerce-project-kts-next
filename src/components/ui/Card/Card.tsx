@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 
 import Image from "next/image"
@@ -11,6 +13,7 @@ import s from "./Card.module.scss"
 type CardProps = {
   className?: string
   image: string
+  imageStyle?: React.CSSProperties
   captionSlot?: React.ReactNode
   title: React.ReactNode
   subtitle: React.ReactNode
@@ -22,6 +25,7 @@ type CardProps = {
 const Card: React.FC<CardProps> = ({
   className,
   image,
+  imageStyle,
   captionSlot,
   title,
   subtitle,
@@ -37,6 +41,7 @@ const Card: React.FC<CardProps> = ({
         className={s.card__image}
         width={500}
         height={500}
+        style={imageStyle}
       />
       <div className={s.card__content}>
         <div className={s.card__info}>

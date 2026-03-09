@@ -2,13 +2,14 @@
 
 import React, { useCallback } from "react"
 
+import { useRouter } from "next/navigation"
+
 import { ROUTES } from "@/constants/routes"
 import type { IProductToList } from "@/shared/interface/product.interface"
 
 import Button from "../Button"
 import Card from "../Card"
 import DiscountPrice from "../DiscountPrice"
-import { useRouter } from "next/navigation"
 
 type Props = {
   product: IProductToList
