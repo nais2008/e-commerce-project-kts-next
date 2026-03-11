@@ -48,8 +48,6 @@ const UserBlock: React.FC<Props> = observer(({ className }) => {
     closeMenu()
   }, [authStore, closeMenu, router])
 
-  console.log(authStore.isAuthenticated)
-
   return (
     <>
       {authStore.isAuthenticated ? (

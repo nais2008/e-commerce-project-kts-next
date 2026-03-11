@@ -1,7 +1,10 @@
+import { notFound } from "next/navigation"
+
 import { queryClient } from "@/api/reactQuery"
 import { getProductById } from "@/services/products"
 import type { ILocalStore } from "@/shared/interface/localStore.interface"
 import MobxQuery from "@/store/globals/mobxQuery"
+import { AxiosError } from "axios"
 import { action, computed, makeObservable, observable } from "mobx"
 
 type PrivateField = "_productQuery"
@@ -12,7 +15,17 @@ class ProductStore implements ILocalStore {
   private _productQuery = new MobxQuery(
     () => ({
       queryKey: ["product", this.id],
-      queryFn: () => getProductById(this.id ?? ""),
+      queryFn: async () => {
+        try {
+          return await getProductById(this.id)
+        } catch (err) {
+          const error = err as AxiosError
+          if (error.response?.status === 404) {
+            notFound()
+          }
+          throw err
+        }
+      },
       enabled: Boolean(this.id),
     }),
     queryClient
@@ -22,9 +35,11 @@ class ProductStore implements ILocalStore {
     makeObservable<ProductStore, PrivateField>(this, {
       _productQuery: observable.ref,
       id: observable,
+
       isLoading: computed,
       error: computed,
       product: computed,
+
       setId: action,
       refetch: action,
     })

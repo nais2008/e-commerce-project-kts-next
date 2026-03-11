@@ -64,7 +64,7 @@ class CartStore implements ILocalStore {
               }
             } else if (variables.product) {
               newCart.push({
-                id: -Date.now(), // Временный ID
+                id: -Date.now(),
                 quantity: variables.quantity ?? 1,
                 product: variables.product,
               })

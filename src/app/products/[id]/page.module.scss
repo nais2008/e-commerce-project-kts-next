@@ -18,4 +18,22 @@
       }
     }
   }
+
+  &__info {
+    position: relative;
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: $spacing-40;
+    justify-content: space-between;
+
+    @include mixins.media-max-width($breakpoint-l) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__linkPrev {
+    display: flex;
+    align-items: center;
+    gap: $spacing-12;
+    align-self: flex-start;
+  }
 }

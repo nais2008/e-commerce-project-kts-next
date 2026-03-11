@@ -57,9 +57,9 @@ const CartItem: React.FC<Props> = ({ item }) => {
       }
     >
       <Image
-        width={128}
-        height={128}
-        src={item.product.images[0].formats.thumbnail.url}
+        width={180}
+        height={180}
+        src={item.product.images[0].formats.small.url}
         alt={item.product.title}
         className={s.cartItem__img}
       />

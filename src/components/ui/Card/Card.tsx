@@ -37,11 +37,12 @@ const Card: React.FC<CardProps> = ({
     <div className={cn(s.card, className)} onClick={onClick}>
       <Image
         src={image}
-        alt={image}
+        alt={typeof title === "string" ? title : "image in card"}
         className={s.card__image}
         width={500}
         height={500}
         style={imageStyle}
+        unoptimized
       />
       <div className={s.card__content}>
         <div className={s.card__info}>

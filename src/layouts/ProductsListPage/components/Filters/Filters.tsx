@@ -28,7 +28,6 @@ const Filters: React.FC = observer(() => {
 
   const lastAppliedRef = useRef(urlSearch)
 
-  // --- effect: state -> URL ---
   useEffect(() => {
     if (debouncedInput === lastAppliedRef.current) return
 
@@ -44,7 +43,6 @@ const Filters: React.FC = observer(() => {
     lastAppliedRef.current = debouncedInput
   }, [debouncedInput, pathname, router, searchParams])
 
-  // --- effect: URL -> state для Back/Forward ---
   useEffect(() => {
     const current = searchParams.get("search") ?? ""
     if (current !== lastAppliedRef.current) {

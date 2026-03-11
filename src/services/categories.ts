@@ -4,22 +4,22 @@ import type { ApiResponse } from "@/shared/interface/apiResponse.interface"
 import type { ICategory } from "@/shared/interface/category.interface"
 import qs from "qs"
 
-const PAGE_SIZE = 9
+const STRAPI_BASE_URL = "https://front-school-strapi.ktsdev.ru"
+const STRAPI_URL = `${STRAPI_BASE_URL}/api`
 
-export async function getCategories(
-  page: number,
-  pageSize: number = PAGE_SIZE,
-  search: string = ""
-) {
+export async function getCategories() {
+  const { data } = await apiClient.get<ApiResponse<ICategory[]>>(
+    ENDPOINTS.categorized.list()
+  )
+
+  return data
+}
+
+export async function getCategoriesByFetch(): Promise<
+  ApiResponse<ICategory[]>
+> {
   const queryParams = {
     populate: ["image"],
-    pagination: {
-      page: page,
-      pageSize: pageSize,
-    },
-    filters: {
-      ...(search ? { title: { $containsi: search } } : {}),
-    },
   }
 
   const queryString = qs.stringify(queryParams, {
@@ -27,13 +27,28 @@ export async function getCategories(
     indices: false,
     arrayFormat: "repeat",
     skipNulls: true,
+    encodeValuesOnly: true,
   })
 
-  const { data } = await apiClient.get<ApiResponse<ICategory[]>>(
-    `${ENDPOINTS.categorized.list()}?${queryString}`
-  )
+  const res = await fetch(`${STRAPI_URL}/product-categories?${queryString}`, {
+    cache: "no-store",
+    next: {
+      revalidate: 60,
+    },
+  })
 
-  return data
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error("Categories not found")
+    }
+    throw new Error(`Failed to fetch categories: ${res.status}`)
+  }
+
+  const json = (await res.json()) as ApiResponse<ICategory[]>
+  return {
+    data: json.data ?? [],
+    meta: json.meta,
+  }
 }
 
 export async function getCategoryById(id: number) {

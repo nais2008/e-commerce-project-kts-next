@@ -12,4 +12,7 @@
     @include mixins.gridContainer();
     overflow: visible !important;
   }
+  &__heading {
+    text-align: center;
+  }
 }

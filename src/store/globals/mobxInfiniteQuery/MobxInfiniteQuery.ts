@@ -4,6 +4,7 @@ import {
   type InfiniteData,
   InfiniteQueryObserver,
   type InfiniteQueryObserverOptions,
+  type InfiniteQueryObserverResult,
   QueryClient,
   type QueryKey,
 } from "@tanstack/query-core"
@@ -21,6 +22,7 @@ class MobxInfiniteQuery<
     () => this.startTracking(),
     () => this.stopTracking()
   )
+
   private queryClient: QueryClient
   private getOptions: () => InfiniteQueryObserverOptions<
     TQueryFnData,
@@ -29,6 +31,7 @@ class MobxInfiniteQuery<
     TQueryKey,
     TPageParam
   >
+
   private queryObserver: InfiniteQueryObserver<
     TQueryFnData,
     TError,
@@ -36,6 +39,10 @@ class MobxInfiniteQuery<
     TQueryKey,
     TPageParam
   >
+
+  private currentResult: InfiniteQueryObserverResult<TData, TError>
+
+  private unsubscribe = () => {}
 
   constructor(
     getOptions: () => InfiniteQueryObserverOptions<
@@ -49,16 +56,20 @@ class MobxInfiniteQuery<
   ) {
     this.queryClient = queryClient
     this.getOptions = getOptions
+
     this.queryObserver = new InfiniteQueryObserver(
       this.queryClient,
       this.defaultQueryOptions
     )
+
+    this.currentResult = this.queryObserver.getCurrentResult()
+
     makeObservable(this, {})
   }
 
   get result() {
     this.atom.reportObserved()
-    return this.queryObserver.getOptimisticResult(this.defaultQueryOptions)
+    return this.currentResult
   }
 
   fetchNextPage() {
@@ -70,32 +81,45 @@ class MobxInfiniteQuery<
   }
 
   hasNextPage() {
-    return this.result.hasNextPage
+    return !!this.currentResult.hasNextPage
   }
 
   hasPreviousPage() {
-    return this.result.hasPreviousPage
+    return !!this.currentResult.hasPreviousPage
   }
 
-  private unsubscribe = () => {}
+  private schedule(fn: () => void) {
+    queueMicrotask(fn)
+  }
+
   startTracking() {
     const unsubscribeReaction = reaction(
       () => this.defaultQueryOptions,
-      () => {
-        this.queryObserver.setOptions(this.defaultQueryOptions)
-      }
+      (options) => {
+        this.schedule(() => {
+          this.queryObserver.setOptions(options)
+        })
+      },
+      { fireImmediately: true }
     )
-    const unsubscribeObserver = this.queryObserver.subscribe(() => {
-      this.atom.reportChanged()
+
+    const unsubscribeObserver = this.queryObserver.subscribe((result) => {
+      this.schedule(() => {
+        this.currentResult = result
+        this.atom.reportChanged()
+      })
     })
+
     this.unsubscribe = () => {
       unsubscribeReaction()
       unsubscribeObserver()
     }
   }
+
   stopTracking() {
     this.unsubscribe()
   }
+
   private get defaultQueryOptions() {
     return this.queryClient.defaultQueryOptions(
       this.getOptions()

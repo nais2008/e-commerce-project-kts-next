@@ -9,6 +9,7 @@ import MobxInfiniteQuery from "@/store/globals/mobxInfiniteQuery"
 import { action, computed, makeObservable, observable } from "mobx"
 
 const PAGE_SIZE = 9
+
 type PrivateFields = "_productListQuery"
 
 class ProductListStore implements ILocalStore {
@@ -33,14 +34,10 @@ class ProductListStore implements ILocalStore {
         }
       },
       initialPageParam: 1,
+
       getNextPageParam: (lastPage) => {
         const { page, pageCount } = lastPage.meta.pagination
-
         return page < pageCount ? page + 1 : undefined
-      },
-      getPreviousPageParam: (_, allPages) => {
-        const prevPage = allPages.length - 1
-        return prevPage > 0 ? prevPage : undefined
       },
     }),
     queryClient
@@ -49,12 +46,14 @@ class ProductListStore implements ILocalStore {
   constructor() {
     makeObservable<ProductListStore, PrivateFields>(this, {
       _productListQuery: observable.ref,
+
       search: observable,
       pageSize: observable,
       categoryId: observable,
 
       products: computed,
       isLoading: computed,
+      isFetchingNextPage: computed,
       hasNextPage: computed,
       totalProducts: computed,
       error: computed,
@@ -67,15 +66,21 @@ class ProductListStore implements ILocalStore {
   }
 
   setSearch = (newSearch: string) => {
-    this.search = newSearch
+    if (this.search !== newSearch) {
+      this.search = newSearch
+    }
   }
 
   setCategoryId = (newCategoryId: number | undefined) => {
-    this.categoryId = newCategoryId
+    if (this.categoryId !== newCategoryId) {
+      this.categoryId = newCategoryId
+    }
   }
 
   setPageSize = (newPageSize: number) => {
-    this.pageSize = newPageSize
+    if (this.pageSize !== newPageSize) {
+      this.pageSize = newPageSize
+    }
   }
 
   refetch() {
@@ -84,7 +89,7 @@ class ProductListStore implements ILocalStore {
 
   get totalProducts() {
     return (
-      this._productListQuery.result.data?.pages[0]?.meta.pagination.total ?? 0
+      this._productListQuery.result.data?.pages?.[0]?.meta.pagination.total ?? 0
     )
   }
 
@@ -98,8 +103,12 @@ class ProductListStore implements ILocalStore {
     return this._productListQuery.result.isPending
   }
 
+  get isFetchingNextPage() {
+    return this._productListQuery.result.isFetchingNextPage
+  }
+
   get hasNextPage() {
-    return this._productListQuery.hasNextPage()
+    return !!this._productListQuery.result.hasNextPage
   }
 
   get error() {
@@ -107,12 +116,18 @@ class ProductListStore implements ILocalStore {
   }
 
   loadMore() {
-    if (this.hasNextPage && !this._productListQuery.result.isFetchingNextPage) {
-      this._productListQuery.fetchNextPage()
+    if (
+      !this.hasNextPage ||
+      this._productListQuery.result.isFetchingNextPage ||
+      this._productListQuery.result.isPending
+    ) {
+      return
     }
+
+    this._productListQuery.fetchNextPage()
   }
 
-  destroy(): void {
+  destroy() {
     this._productListQuery.stopTracking()
   }
 }

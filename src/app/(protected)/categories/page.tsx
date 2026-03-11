@@ -1,22 +1,40 @@
 import type { Metadata } from "next"
+import { notFound } from "next/navigation"
 
-import ProtectedRoute from "@/components/utils/ProtectedRoute"
+import { getCategoriesByFetch } from "@/services/categories"
 
-import Categories from "./Categories"
+import Heading from "@/components/ui/Heading"
+import ListItems from "@/components/ui/ListItems"
+
+import s from "./page.module.scss"
 
 export const metadata: Metadata = {
   title: "Categories",
   description: "Browse our categories of products",
 }
 
-const Page = () => {
+const CategoriesPage = async () => {
+  let categories = []
+
+  try {
+    const res = await getCategoriesByFetch()
+    categories = res.data
+  } catch {
+    notFound()
+  }
+
   return (
-    <main>
-      <ProtectedRoute>
-        <Categories />
-      </ProtectedRoute>
+    <main className={s.list}>
+      <Heading className={s.list__heading} tag="h1">
+        Categories
+      </Heading>
+      <ListItems
+        className={s.list__items}
+        items={categories}
+        type="categories"
+      />
     </main>
   )
 }
 
-export default Page
+export default CategoriesPage

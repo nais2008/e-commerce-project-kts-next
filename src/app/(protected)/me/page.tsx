@@ -1,7 +1,5 @@
 import type { Metadata } from "next"
 
-import ProtectedRoute from "@/components/utils/ProtectedRoute"
-
 import Me from "./Me"
 import s from "./page.module.scss"
 
@@ -22,9 +20,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <main className={s.profile__center}>
-      <ProtectedRoute>
-        <Me />
-      </ProtectedRoute>
+      <Me />
     </main>
   )
 }

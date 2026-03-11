@@ -16,22 +16,18 @@ import Heading from "@/components/ui/Heading"
 import ImageSlider from "@/components/ui/ImageSlider"
 import ProductDetailSkeleton from "@/components/ui/skeletons/ProductDetailSkeleton"
 
-import s from "./Product.module.scss"
 import InfoProduct from "./components/InfoProduct"
 import List from "./components/List"
+import s from "./page.module.scss"
 import { Params } from "./params"
 
 const Product = observer(() => {
   const router = useRouter()
-
   const { id } = useParams<Params>()
-
   const store = useLocalStore(() => new ProductStore())
 
   useEffect(() => {
-    if (id) {
-      store.setId(id)
-    }
+    if (id) store.setId(id)
   }, [id, store])
 
   const handleBack = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -40,12 +36,14 @@ const Product = observer(() => {
   }
 
   return (
-    <div>
+    <>
       <Link href="#" className={s.product__linkPrev} onClick={handleBack}>
         <ChevronLeft size={32} />
         <Heading view="desc">Back</Heading>
       </Link>
+
       {store.isLoading && <ProductDetailSkeleton />}
+
       {store.error && (
         <>
           <ErrorMessage
@@ -56,6 +54,7 @@ const Product = observer(() => {
           </Button>
         </>
       )}
+
       {store.product && (
         <>
           <div className={s.product__info}>
@@ -65,7 +64,7 @@ const Product = observer(() => {
           <List categoryId={store.product.productCategory.id} />
         </>
       )}
-    </div>
+    </>
   )
 })
 

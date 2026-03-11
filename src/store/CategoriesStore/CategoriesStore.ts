@@ -11,7 +11,7 @@ class CategoriesStore implements ILocalStore {
   private _query = new MobxQuery(
     () => ({
       queryKey: ["categories"],
-      queryFn: () => getCategories(1),
+      queryFn: () => getCategories(),
     }),
     queryClient
   )
