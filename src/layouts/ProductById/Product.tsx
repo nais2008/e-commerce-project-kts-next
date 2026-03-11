@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 
 import { useLocalStore } from "@/hooks/useLocalStore"
+import { Params } from "@/shared/type/productId.type"
 import ProductStore from "@/store/ProductStore"
 import { ChevronLeft } from "lucide-react"
 import { observer } from "mobx-react-lite"
@@ -16,10 +17,9 @@ import Heading from "@/components/ui/Heading"
 import ImageSlider from "@/components/ui/ImageSlider"
 import ProductDetailSkeleton from "@/components/ui/skeletons/ProductDetailSkeleton"
 
+import s from "./Product.module.scss"
 import InfoProduct from "./components/InfoProduct"
 import List from "./components/List"
-import s from "./page.module.scss"
-import { Params } from "./params"
 
 const Product = observer(() => {
   const router = useRouter()

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
-import Cart from "./Cart"
+import Cart from "@/layouts/CartPage"
+
 import s from "./page.module.scss"
 
 export const metadata: Metadata = {

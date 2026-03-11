@@ -5,8 +5,6 @@
   &__container {
     @include container($spacing-40);
     width: 100%;
-  }
-  &__content {
     display: flex;
     gap: $spacing-40;
     position: relative;
@@ -15,6 +13,7 @@
       flex-direction: column;
     }
   }
+
   &__quantity {
     display: flex;
     align-items: center;

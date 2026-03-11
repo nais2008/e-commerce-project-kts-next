@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
-import Me from "./Me"
+import Me from "@/layouts/MePage"
+
 import s from "./page.module.scss"
 
 export const metadata: Metadata = {

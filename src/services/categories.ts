@@ -31,9 +31,8 @@ export async function getCategoriesByFetch(): Promise<
   })
 
   const res = await fetch(`${STRAPI_URL}/product-categories?${queryString}`, {
-    cache: "no-store",
     next: {
-      revalidate: 60,
+      revalidate: 3600,
     },
   })
 

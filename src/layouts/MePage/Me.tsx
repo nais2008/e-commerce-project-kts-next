@@ -18,7 +18,7 @@ import { formatDate } from "@/utils/formatDate"
 
 import LeftBlock from "./components/LeftBlock"
 import RightBlock from "./components/RightBlock"
-import s from "./page.module.scss"
+import s from "./Me.module.scss"
 
 const Me: React.FC = observer(() => {
   const authStore = useAuthStore()

@@ -5,9 +5,9 @@ import { getQueryClient } from "@/api/reactQuery"
 import { getProductById, getProducts } from "@/services/products"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
-import Product from "./Product"
 import s from "./page.module.scss"
-import { Params } from "./params"
+import { Params } from "@/shared/type/productId.type"
+import Product from "@/layouts/ProductById"
 
 export async function generateMetadata({
   params,

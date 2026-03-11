@@ -1,10 +1,9 @@
 import Link from "next/link"
 
-import { ROUTES } from "@/constants/routes"
-
 import Heading from "@/components/ui/Heading"
 
 import s from "./Footer.module.scss"
+import { FOOTER_LINKS } from "./footer.data"
 
 const Footer = () => {
   const year =
@@ -19,14 +18,11 @@ const Footer = () => {
           © Lalasia {year}
         </Heading>
         <nav className={s.footer__navigate}>
-          <Link href={ROUTES.products.create()}>Go to products</Link>
-          <Link href={ROUTES.categories.create()}>Go to categories</Link>
-          <Link
-            href="https://github.com/nais2008/e-commerce-project-kts"
-            target="_blank"
-          >
-            Check code
-          </Link>
+          {FOOTER_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} target={link.target}>
+              {link.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </footer>

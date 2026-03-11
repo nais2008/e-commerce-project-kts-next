@@ -42,7 +42,7 @@ const Login: React.FC = observer(() => {
   const authStore = useAuthStore()
 
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
-    await authStore.login({
+    authStore.login({
       identifier: data.identifier,
       password: data.password,
     })

@@ -6,16 +6,18 @@ import s from "./CartItemSkeleton.module.scss"
 const CartItemSkeleton: React.FC = () => {
   return (
     <div className={s.cartItem}>
-      <Skeleton className={s.cartItem__image} width={185} height={185} />
-      <div className={s.cartItem__details}>
-        <Skeleton width={200} height={20} />
-        <Skeleton width={80} height={16} />
-        <div className={s.cartItem__quantity}>
-          <Skeleton width={30} height={30} />
-          <Skeleton width={30} height={20} />
-          <Skeleton width={30} height={30} />
-        </div>
-        <Skeleton width={100} height={30} />
+      <Skeleton className={s.cartItem__image} />
+
+      <div className={s.cartItem__info}>
+        <Skeleton width={220} height={18} />
+        <Skeleton width={90} height={20} />
+      </div>
+
+      <div className={s.cartItem__actions}>
+        <Skeleton width={40} height={40} />
+        <Skeleton width={30} height={20} />
+        <Skeleton width={40} height={40} />
+        <Skeleton width={36} height={36} />
       </div>
     </div>
   )

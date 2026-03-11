@@ -10,7 +10,6 @@ import Button from "@/components/ui/Button"
 
 import List from "./components/List"
 import Summary from "./components/Summary"
-import s from "./page.module.scss"
 
 const Cart: React.FC = observer(() => {
   const cartStore = useCartStore()
@@ -25,10 +24,10 @@ const Cart: React.FC = observer(() => {
   }
 
   return (
-    <div className={s.cart__content}>
+    <>
       <List />
       <Summary />
-    </div>
+    </>
   )
 })
 

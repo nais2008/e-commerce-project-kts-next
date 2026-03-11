@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation"
 import { ROUTES } from "@/constants/routes"
 import { useCartStore } from "@/hooks/globalStores"
 import type { IProductInCart } from "@/shared/interface/cart.interface"
+import { Trash2 } from "lucide-react"
 
-import Button from "@/components/ui/Button"
 import DiscountPrice from "@/components/ui/DiscountPrice"
 import Heading from "@/components/ui/Heading"
 import QuantityButton from "@/components/ui/QuantityButton"
@@ -22,7 +22,6 @@ type Props = {
 
 const CartItem: React.FC<Props> = ({ item }) => {
   const cartStore = useCartStore()
-
   const router = useRouter()
 
   const onAdd = useCallback(
@@ -56,32 +55,46 @@ const CartItem: React.FC<Props> = ({ item }) => {
         router.push(ROUTES.product.create(item.product.documentId))
       }
     >
-      <Image
-        width={180}
-        height={180}
-        src={item.product.images[0].formats.small.url}
-        alt={item.product.title}
-        className={s.cartItem__img}
-      />
-      <div className={s.cartItem__content}>
-        <Heading view="desc" weight="medium">
+      <div className={s.cartItem__image}>
+        <Image
+          src={item.product.images[0].formats.thumbnail.url}
+          alt={item.product.title}
+          width={100}
+          height={100}
+        />
+      </div>
+
+      <div className={s.cartItem__info}>
+        <Heading
+          view="desc"
+          weight="medium"
+          className={s.cartItem__title}
+          maxLines={2}
+        >
           {item.product.title}
         </Heading>
+
         <DiscountPrice
           showDiscount={false}
           view="desc"
           price={item.product.price}
           discountPercent={item.product.discountPercent}
-          className={s.cartItem__discount}
+          className={s.cartItem__price}
         />
-        <QuantityButton
-          quantity={item.quantity}
-          onAdd={onAdd}
-          onRemove={onRemove}
-        />
-        <Button onClick={onRemoveFull} className={s.cartItem__btn_remove}>
-          Remove
-        </Button>
+      </div>
+
+      <div className={s.cartItem__btns}>
+        <div className={s.cartItem__actions}>
+          <QuantityButton
+            quantity={item.quantity}
+            onAdd={onAdd}
+            onRemove={onRemove}
+          />
+
+          <button onClick={onRemoveFull} className={s.cartItem__remove}>
+            <Trash2 size={18} />
+          </button>
+        </div>
       </div>
     </div>
   )
