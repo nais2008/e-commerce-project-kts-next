@@ -1,0 +1,27 @@
+@use "@/styles/animation";
+@use "@/styles/variables" as *;
+@use "@/styles/mixins";
+
+@mixin loader-size($size, $border) {
+  @include mixins.square($size);
+  border: $border solid var(--accent-color);
+  border-right: $border solid transparent;
+}
+
+.loader {
+  @include loader-size(40px, 5px);
+  border-radius: 50%;
+  animation: rotate-anim 5s linear infinite;
+
+  &_l {
+    @include loader-size(40px, 5px);
+  }
+
+  &_m {
+    @include loader-size(32px, 4px);
+  }
+
+  &_s {
+    @include loader-size(16px, 2px);
+  }
+}

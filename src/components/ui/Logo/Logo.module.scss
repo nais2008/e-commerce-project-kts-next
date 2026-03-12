@@ -1,0 +1,14 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins";
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-24;
+
+  @include mixins.media-max-width($breakpoint-s) {
+    &__title {
+      display: none;
+    }
+  }
+}

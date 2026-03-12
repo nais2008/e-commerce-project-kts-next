@@ -1,0 +1,27 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.cart {
+  &__container {
+    @include container($spacing-40);
+    width: 100%;
+    display: flex;
+    gap: $spacing-40;
+    position: relative;
+
+    @include media-max-width($breakpoint-l) {
+      flex-direction: column;
+    }
+  }
+
+  &__quantity {
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+
+    span {
+      min-width: 30px;
+      text-align: center;
+    }
+  }
+}

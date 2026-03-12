@@ -1,0 +1,90 @@
+@use "@/styles/variables" as *;
+
+.userBlock {
+  display: flex;
+  position: relative;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+
+  &__icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  &__avatar {
+    border-radius: 50%;
+    transition: box-shadow 0.2s;
+
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: var(--shadow);
+      }
+    }
+    @media (hover: none) {
+      &:active {
+        box-shadow: var(--shadow);
+      }
+    }
+  }
+  &__btnLogin {
+    padding: $spacing-12;
+    background-color: var(--back-color);
+    transition: background-color 0.1s;
+
+    &:active {
+      background-color: var(--back-color-second);
+    }
+  }
+  &__menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--back-color-second);
+    border: 1px solid var(--back-color);
+    border-radius: $border-radius;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    z-index: 10;
+    width: clamp(100px, 100vw, 200px);
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &__menu_open {
+    opacity: 100;
+    pointer-events: all;
+  }
+  &__menuItem {
+    user-select: none;
+    padding: $spacing-12 $spacing-16;
+    background: none;
+    border: none;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    color: var(--primary-color);
+    font-weight: 400;
+    font-variation-settings: "wght" 500;
+
+    &_red {
+      color: tomato;
+    }
+    @media (hover: hover) {
+      &:hover {
+        background: var(--back-color);
+      }
+    }
+    @media (hover: none) {
+      &:active {
+        background: var(--back-color);
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins";
+
+$arrow-color: var(--back-color-second);
+$arrow-color-back: var(--primary-color);
+
+.slider {
+  position: relative;
+  width: clamp(320px, 100%, 100%);
+  height: auto;
+  overflow: hidden;
+  border-radius: $border-radius;
+
+  :global(.swiper-wrapper) {
+    height: fit-content;
+  }
+  :global(.swiper-slide) {
+    height: fit-content;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  &__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include mixins.square(48px);
+    border: none;
+    border-radius: 50%;
+    background: $arrow-color-back;
+    color: $arrow-color;
+    cursor: pointer;
+    z-index: $z-index-10;
+    transition: opacity 0.2s;
+
+    &:hover:not(:disabled) {
+      opacity: 0.8;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    &_prev {
+      left: 16px;
+    }
+    &_next {
+      right: 16px;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+@use "@/styles/mixins" as *;
+
+.profile {
+  &__center {
+    @include center;
+  }
+}

@@ -1,0 +1,28 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.productsList {
+  &__container {
+    @include mixins.container(100px) {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-40;
+      width: 100%;
+    }
+  }
+  &__title {
+    display: flex;
+    place-content: center;
+  }
+}
+
+.title {
+  &__container {
+    max-width: 650px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    gap: $spacing-20;
+  }
+}

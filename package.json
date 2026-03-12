@@ -21,9 +21,12 @@
     "path-to-regexp": "^8.3.0",
     "qs": "^6.15.0",
     "react": "19.2.3",
+    "react-countup": "^6.5.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "react-infinite-scroll-component": "^6.1.1",
+    "react-loading-skeleton": "^3.5.0",
+    "react-toastify": "^11.0.5",
     "swiper": "^12.1.2"
   },
   "devDependencies": {
@@ -33,7 +36,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^10.0.3",
+    "eslint": "9",
     "eslint-config-next": "16.1.6",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.5",

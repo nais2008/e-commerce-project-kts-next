@@ -1,0 +1,66 @@
+@use "@/styles/variables" as *;
+
+.skeleton {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background-color: var(--back-color-second);
+  padding: $spacing-40 $spacing-20;
+  border-radius: $border-radius;
+  width: clamp(300px, 100vw, 800px);
+  box-shadow: var(--shadow);
+
+  @media screen and (width <= $breakpoint-l) {
+    box-shadow: none;
+    background-color: var(--back-color);
+  }
+
+  &__header {
+    display: flex;
+    gap: 20px;
+
+    @media screen and (width <= $breakpoint-s) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &__avatar {
+    border-radius: 50%;
+  }
+
+  &__status {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+  }
+
+  &__userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  &__main {
+    display: flex;
+    gap: 20px;
+
+    & > div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media screen and (width <= $breakpoint-l) {
+      flex-direction: column;
+    }
+  }
+
+  &__card {
+    height: 48px;
+    border-radius: $border-radius;
+  }
+}

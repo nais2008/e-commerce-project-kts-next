@@ -1,0 +1,55 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.rightBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--secondary-color);
+  }
+  &__item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    background-color: var(--back-color);
+    border-radius: $border-radius;
+    padding: $spacing-4 $spacing-12;
+    cursor: pointer;
+    user-select: none;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: color-mix(
+          in srgb,
+          var(--back-color) 85%,
+          var(--primary-color)
+        );
+      }
+      &_red:hover {
+        background-color: color-mix(in srgb, var(--back-color) 85%, tomato);
+      }
+    }
+    &:active {
+      background-color: color-mix(in srgb, var(--back-color) 85%, #000);
+    }
+
+    @include media-max-width($breakpoint-l) {
+      & {
+        background-color: var(--back-color-second);
+      }
+    }
+  }
+  .item__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}

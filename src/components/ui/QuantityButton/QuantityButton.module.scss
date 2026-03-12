@@ -1,0 +1,12 @@
+@use "@/styles/variables" as *;
+
+.quantityBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-12;
+
+  &__btn {
+    padding: $spacing-16;
+    padding-bottom: calc($spacing-16 - 5px);
+  }
+}

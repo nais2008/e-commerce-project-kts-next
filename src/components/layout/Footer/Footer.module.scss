@@ -1,0 +1,33 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins";
+
+.footer {
+  margin-top: 20px;
+  background-color: var(--back-color-second);
+  padding-block: $spacing-20;
+  border-top: 2px solid
+    color-mix(in srgb, var(--secondary-color), var(--back-color-second) 80%);
+
+  &__container {
+    @include mixins.container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      @include mixins.media-max-width($breakpoint-m) {
+        flex-direction: column;
+        gap: $spacing-40;
+      }
+    }
+  }
+  &__navigate {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-12;
+
+    @include mixins.media-max-width($breakpoint-m) {
+      align-items: center;
+      gap: $spacing-12;
+    }
+  }
+}

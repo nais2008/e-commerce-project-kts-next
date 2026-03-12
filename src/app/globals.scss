@@ -1,0 +1,87 @@
+@use "@/styles/themeColors";
+@use "@/styles/variables" as *;
+
+:root {
+  @include themeColors.theme-light;
+}
+:root.light-theme {
+  @include themeColors.theme-light;
+}
+:root.dark-theme {
+  @include themeColors.theme-dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include themeColors.theme-dark;
+  }
+}
+
+:root {
+  color-scheme: light dark;
+  color: var(--primary-color);
+  background-color: var(--back-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.react-loading-skeleton {
+  --base-color: var(--disabled-color);
+  --highlight-color: var(--secondary-color);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+  font-family: var(--font-roboto-flex);
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0,
+    "wdth" 100,
+    "GRAD" 0,
+    "XOPQ" 100,
+    "XTRA" 100,
+    "YOPQ" 100,
+    "YTAS" 750,
+    "YTDE" -250,
+    "YTFI" 600,
+    "YTLC" 500,
+    "YTUC" 725;
+
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  -webkit-overflow-scrolling: auto;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 1 auto;
+}

@@ -1,0 +1,77 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 40px;
+  background-color: var(--back-color-second);
+  padding: $spacing-40 $spacing-20;
+  border-radius: $border-radius;
+  position: relative;
+  width: clamp(300px, 100vw, 800px);
+  box-shadow: var(--shadow);
+
+  &__center {
+    @include center;
+  }
+  @media screen and (width <= $breakpoint-l) {
+    box-shadow: none;
+    background-color: var(--back-color);
+  }
+  &__header {
+    display: flex;
+    gap: 20px;
+
+    @media screen and (width <= $breakpoint-s) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  &__avatar {
+    border-radius: 50%;
+  }
+  &__isActive {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    padding: $spacing-8 $spacing-16;
+    background-color: var(--back-color);
+    border-radius: 400px;
+  }
+  &__userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  .userInfo__item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    @media screen and (width <= $breakpoint-s) {
+      &:first-child {
+        display: none;
+      }
+    }
+  }
+  &__main {
+    display: flex;
+    gap: 20px;
+
+    & > div {
+      flex: 1;
+    }
+    @media screen and (width <= $breakpoint-l) {
+      & {
+        flex-direction: column;
+      }
+    }
+  }
+}

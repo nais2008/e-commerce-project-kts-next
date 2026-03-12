@@ -1,0 +1,34 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.productDetail {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: $spacing-40;
+  justify-content: space-between;
+
+  @include mixins.media-max-width($breakpoint-l) {
+    grid-template-columns: 1fr;
+  }
+
+  &__image {
+    width: 100%;
+    height: 500px;
+  }
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-20;
+  }
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+  }
+  &__buttons {
+    display: flex;
+    gap: $spacing-16;
+    margin-top: 12px;
+  }
+}
