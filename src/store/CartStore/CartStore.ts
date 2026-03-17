@@ -11,7 +11,11 @@ import { action, computed, makeObservable, observable, reaction } from "mobx"
 
 import { calculateDiscountedPrice } from "@/utils/calculateDiscountedPrice"
 
-type PrivateFields = "_cartQuery" | "_addMutation" | "_removeMutation"
+type PrivateFields =
+  | "_cartQuery"
+  | "_addMutation"
+  | "_removeMutation"
+  | "_clearMutation"
 
 class CartStore implements ILocalStore {
   private _rootStore: RootStore
@@ -20,6 +24,7 @@ class CartStore implements ILocalStore {
   private _cartQuery
   private _addMutation
   private _removeMutation
+  private _clearMutation
 
   constructor(rootStore: RootStore) {
     this._rootStore = rootStore
@@ -140,21 +145,61 @@ class CartStore implements ILocalStore {
       queryClient
     )
 
+    this._clearMutation = new MobxMutation(
+      () => ({
+        mutationKey: ["cart", "clear"],
+        mutationFn: async (items: IProductInCart[]) => {
+          const token = this._rootStore.authStore.jwt ?? ""
+
+          await Promise.all(
+            items.map((item) =>
+              removeFromCart(token, item.product.id, item.quantity)
+            )
+          )
+        },
+        onMutate: async () => {
+          const queryKey = this.getCartQueryKey()
+
+          await queryClient.cancelQueries({ queryKey })
+
+          const previous = queryClient.getQueryData<IProductInCart[]>(queryKey)
+
+          queryClient.setQueryData<IProductInCart[]>(queryKey, [])
+
+          return { previous, queryKey }
+        },
+        onError: (_, __, context) => {
+          if (context?.previous && context?.queryKey) {
+            queryClient.setQueryData(context.queryKey, context.previous)
+          }
+        },
+        onSettled: (_, __, ___, context) => {
+          if (context?.queryKey) {
+            queryClient.invalidateQueries({ queryKey: context.queryKey })
+          }
+        },
+      }),
+      queryClient
+    )
+
     makeObservable<CartStore, PrivateFields>(this, {
       _cartQuery: observable.ref,
       _addMutation: observable.ref,
       _removeMutation: observable.ref,
+      _clearMutation: observable.ref,
 
       cart: computed,
       isLoading: computed,
       isLoadingAdd: computed,
       isLoadingRemove: computed,
+      isLoadingClear: computed,
       error: computed,
       totalSum: computed,
       totalItems: computed,
 
       add: action,
       remove: action,
+      clearCart: action,
       refetch: action,
     })
 
@@ -221,6 +266,10 @@ class CartStore implements ILocalStore {
     return this._removeMutation.result.isPending
   }
 
+  get isLoadingClear() {
+    return this._clearMutation.result.isPending
+  }
+
   get error(): AxiosError | null {
     return (this._cartQuery.result.error as AxiosError) ?? null
   }
@@ -235,6 +284,18 @@ class CartStore implements ILocalStore {
     if (!this._rootStore.authStore.jwt) return
 
     return this._removeMutation.mutate({ productId, quantity })
+  }
+
+  clearCart() {
+    if (!this._rootStore.authStore.jwt) return Promise.resolve()
+
+    const items = [...this.cart]
+
+    if (items.length === 0) {
+      return Promise.resolve()
+    }
+
+    return this._clearMutation.mutate(items)
   }
 
   refetch() {
@@ -252,6 +313,7 @@ class CartStore implements ILocalStore {
     this._cartQuery.stopTracking()
     this._addMutation.stopTracking()
     this._removeMutation.stopTracking()
+    this._clearMutation.stopTracking()
   }
 }
 

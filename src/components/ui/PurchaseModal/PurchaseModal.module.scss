@@ -1,0 +1,177 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.purchase {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-16;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-20;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-12;
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: $spacing-4;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    gap: $spacing-12;
+    align-items: center;
+    padding: $spacing-8;
+    background-color: var(--back-color);
+  }
+
+  &__itemImage {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    background: var(--disabled-color);
+    flex-shrink: 0;
+  }
+
+  &__itemInfo {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+
+  &__itemTitle {
+    line-height: 1.25;
+  }
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+    padding: $spacing-12;
+    border: 1px solid var(--disabled-color);
+  }
+
+  &__methods {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacing-8;
+  }
+
+  &__method {
+    border: 1px solid var(--disabled-color);
+    background: var(--back-color-second);
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: $spacing-12;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s,
+      color 0.2s;
+
+    &_active {
+      border-color: var(--accent-color);
+      background-color: var(--accent-color);
+      color: $text-color-static;
+    }
+  }
+
+  &__sbp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-16;
+  }
+
+  &__qrLink {
+    display: inline-flex;
+    border: 1px solid var(--disabled-color);
+    padding: $spacing-8;
+    background: var(--back-color);
+  }
+
+  &__qrImage {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-12;
+    padding: $spacing-12;
+    background: var(--back-color);
+    border: 1px solid var(--disabled-color);
+  }
+
+  &__cardSecondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-12;
+  }
+
+  &__card &__input {
+    background-color: var(--back-color-second);
+    border-color: var(--disabled-color);
+  }
+
+  &__hint {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  &__action {
+    width: 100%;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-12;
+    width: 100%;
+
+    &_sbp {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: $spacing-12;
+    }
+  }
+}
+
+@include mixins.media-max-width($breakpoint-m) {
+  .purchase {
+    &__actions {
+      position: sticky;
+      bottom: 0;
+      margin-top: auto;
+      padding-top: $spacing-12;
+      padding-bottom: calc($spacing-12 + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--disabled-color);
+      background: var(--back-color-second);
+      z-index: $z-index-10;
+    }
+
+    &__actions_sbp {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@include mixins.media-max-width($breakpoint-s) {
+  .purchase {
+    &__cardSecondary {
+      grid-template-columns: 1fr;
+    }
+
+    &__qrImage {
+      width: 180px;
+      height: 180px;
+    }
+  }
+}
