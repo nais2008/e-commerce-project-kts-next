@@ -9,13 +9,7 @@ type Props = {
 
 const AnimatedPrice: React.FC<Props> = ({ value }) => {
   return (
-    <CountUp
-      end={value}
-      duration={0.4}
-      decimals={2}
-      prefix="$"
-      preserveValue
-    />
+    <CountUp end={value} duration={0.4} decimals={2} prefix="$" preserveValue />
   )
 }
 

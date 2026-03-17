@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 
 import { useLocalStore } from "@/hooks/useLocalStore"
+import type { IProductToList } from "@/shared/interface/product.interface"
 import { Params } from "@/shared/type/productId.type"
 import ProductStore from "@/store/ProductStore"
 import { ChevronLeft } from "lucide-react"
@@ -35,6 +36,32 @@ const Product = observer(() => {
     router.back()
   }
 
+  const currentProduct = React.useMemo<IProductToList | null>(() => {
+    if (!store.product) return null
+
+    const {
+      id,
+      documentId,
+      title,
+      description,
+      images,
+      productCategory,
+      price,
+      discountPercent,
+    } = store.product
+
+    return {
+      id,
+      documentId,
+      title,
+      description,
+      images,
+      productCategory,
+      price,
+      discountPercent,
+    }
+  }, [store.product])
+
   return (
     <>
       <Link href="#" className={s.product__linkPrev} onClick={handleBack}>
@@ -55,13 +82,16 @@ const Product = observer(() => {
         </>
       )}
 
-      {store.product && (
+      {store.product && currentProduct && (
         <>
           <div className={s.product__info}>
             <ImageSlider images={store.product.images} />
             <InfoProduct data={store.product} />
           </div>
-          <List categoryId={store.product.productCategory.id} />
+          <List
+            categoryId={store.product.productCategory.id}
+            currentProduct={currentProduct}
+          />
         </>
       )}
     </>

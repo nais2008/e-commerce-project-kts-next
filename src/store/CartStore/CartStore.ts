@@ -7,27 +7,31 @@ import MobxMutation from "@/store/globals/mobxMutation"
 import MobxQuery from "@/store/globals/mobxQuery"
 import RootStore from "@/store/globals/root"
 import type { AxiosError } from "axios"
-import { action, computed, makeObservable, observable } from "mobx"
+import { action, computed, makeObservable, observable, reaction } from "mobx"
 
 import { calculateDiscountedPrice } from "@/utils/calculateDiscountedPrice"
 
-type PrivateFields = "_cartQuery" | "_addMutation" | "_removeMutation"
+type PrivateFields =
+  | "_cartQuery"
+  | "_addMutation"
+  | "_removeMutation"
+  | "_clearMutation"
 
 class CartStore implements ILocalStore {
   private _rootStore: RootStore
+  private _unsubscribeAuthReaction = () => {}
 
   private _cartQuery
   private _addMutation
   private _removeMutation
+  private _clearMutation
 
   constructor(rootStore: RootStore) {
     this._rootStore = rootStore
 
-    const queryKey = ["cart", "list"]
-
     this._cartQuery = new MobxQuery(
       () => ({
-        queryKey,
+        queryKey: this.getCartQueryKey(),
         queryFn: () => getCart(this._rootStore.authStore.jwt ?? ""),
         enabled: !!this._rootStore.authStore.jwt,
       }),
@@ -47,6 +51,8 @@ class CartStore implements ILocalStore {
           return addToCart(token, variables.productId, variables.quantity)
         },
         onMutate: async (variables) => {
+          const queryKey = this.getCartQueryKey()
+
           await queryClient.cancelQueries({ queryKey })
 
           const previous = queryClient.getQueryData<IProductInCart[]>(queryKey)
@@ -73,15 +79,17 @@ class CartStore implements ILocalStore {
             queryClient.setQueryData(queryKey, newCart)
           }
 
-          return { previous }
+          return { previous, queryKey }
         },
         onError: (_, __, context) => {
-          if (context?.previous) {
-            queryClient.setQueryData(queryKey, context.previous)
+          if (context?.previous && context?.queryKey) {
+            queryClient.setQueryData(context.queryKey, context.previous)
           }
         },
-        onSettled: () => {
-          queryClient.invalidateQueries({ queryKey })
+        onSettled: (_, __, ___, context) => {
+          if (context?.queryKey) {
+            queryClient.invalidateQueries({ queryKey: context.queryKey })
+          }
         },
       }),
       queryClient
@@ -96,6 +104,8 @@ class CartStore implements ILocalStore {
           return removeFromCart(token, variables.productId, variables.quantity)
         },
         onMutate: async (variables) => {
+          const queryKey = this.getCartQueryKey()
+
           await queryClient.cancelQueries({ queryKey })
 
           const previous = queryClient.getQueryData<IProductInCart[]>(queryKey)
@@ -119,15 +129,54 @@ class CartStore implements ILocalStore {
             queryClient.setQueryData(queryKey, newCart)
           }
 
-          return { previous }
+          return { previous, queryKey }
         },
         onError: (_, __, context) => {
-          if (context?.previous) {
-            queryClient.setQueryData(queryKey, context.previous)
+          if (context?.previous && context?.queryKey) {
+            queryClient.setQueryData(context.queryKey, context.previous)
           }
         },
-        onSettled: () => {
-          queryClient.invalidateQueries({ queryKey })
+        onSettled: (_, __, ___, context) => {
+          if (context?.queryKey) {
+            queryClient.invalidateQueries({ queryKey: context.queryKey })
+          }
+        },
+      }),
+      queryClient
+    )
+
+    this._clearMutation = new MobxMutation(
+      () => ({
+        mutationKey: ["cart", "clear"],
+        mutationFn: async (items: IProductInCart[]) => {
+          const token = this._rootStore.authStore.jwt ?? ""
+
+          await Promise.all(
+            items.map((item) =>
+              removeFromCart(token, item.product.id, item.quantity)
+            )
+          )
+        },
+        onMutate: async () => {
+          const queryKey = this.getCartQueryKey()
+
+          await queryClient.cancelQueries({ queryKey })
+
+          const previous = queryClient.getQueryData<IProductInCart[]>(queryKey)
+
+          queryClient.setQueryData<IProductInCart[]>(queryKey, [])
+
+          return { previous, queryKey }
+        },
+        onError: (_, __, context) => {
+          if (context?.previous && context?.queryKey) {
+            queryClient.setQueryData(context.queryKey, context.previous)
+          }
+        },
+        onSettled: (_, __, ___, context) => {
+          if (context?.queryKey) {
+            queryClient.invalidateQueries({ queryKey: context.queryKey })
+          }
         },
       }),
       queryClient
@@ -137,22 +186,46 @@ class CartStore implements ILocalStore {
       _cartQuery: observable.ref,
       _addMutation: observable.ref,
       _removeMutation: observable.ref,
+      _clearMutation: observable.ref,
 
       cart: computed,
       isLoading: computed,
       isLoadingAdd: computed,
       isLoadingRemove: computed,
+      isLoadingClear: computed,
       error: computed,
       totalSum: computed,
       totalItems: computed,
 
       add: action,
       remove: action,
+      clearCart: action,
       refetch: action,
     })
+
+    this._unsubscribeAuthReaction = reaction(
+      () => this._rootStore.authStore.jwt,
+      (jwt, prevJwt) => {
+        if (!jwt) {
+          queryClient.removeQueries({ queryKey: ["cart", "list"] })
+          return
+        }
+
+        if (prevJwt && prevJwt !== jwt) {
+          queryClient.removeQueries({ queryKey: ["cart", "list", prevJwt] })
+        }
+
+        queryClient.invalidateQueries({ queryKey: ["cart", "list", jwt] })
+      },
+      { fireImmediately: true }
+    )
   }
 
   get cart(): IProductInCart[] {
+    if (!this._rootStore.authStore.jwt) {
+      return []
+    }
+
     return this._cartQuery.result.data ?? []
   }
 
@@ -193,26 +266,54 @@ class CartStore implements ILocalStore {
     return this._removeMutation.result.isPending
   }
 
+  get isLoadingClear() {
+    return this._clearMutation.result.isPending
+  }
+
   get error(): AxiosError | null {
     return (this._cartQuery.result.error as AxiosError) ?? null
   }
 
   add(productId: number, quantity = 1, product?: IProduct) {
+    if (!this._rootStore.authStore.jwt) return
+
     return this._addMutation.mutate({ productId, quantity, product })
   }
 
   remove(productId: number, quantity = 1) {
+    if (!this._rootStore.authStore.jwt) return
+
     return this._removeMutation.mutate({ productId, quantity })
   }
 
+  clearCart() {
+    if (!this._rootStore.authStore.jwt) return Promise.resolve()
+
+    const items = [...this.cart]
+
+    if (items.length === 0) {
+      return Promise.resolve()
+    }
+
+    return this._clearMutation.mutate(items)
+  }
+
   refetch() {
+    if (!this._rootStore.authStore.jwt) return
+
     this._cartQuery.result.refetch()
   }
 
+  private getCartQueryKey() {
+    return ["cart", "list", this._rootStore.authStore.jwt ?? "guest"] as const
+  }
+
   destroy() {
+    this._unsubscribeAuthReaction()
     this._cartQuery.stopTracking()
     this._addMutation.stopTracking()
     this._removeMutation.stopTracking()
+    this._clearMutation.stopTracking()
   }
 }
 

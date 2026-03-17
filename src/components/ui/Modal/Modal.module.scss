@@ -1,0 +1,199 @@
+@use "@/styles/mixins";
+@use "@/styles/variables" as *;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: $z-index-20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-20;
+  background: rgba(0, 0, 0, 0);
+
+  &__dialog {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--back-color-second);
+    box-shadow: var(--shadow);
+    max-height: calc(100vh - #{$spacing-40});
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+
+    &_s {
+      max-width: 460px;
+    }
+
+    &_m {
+      max-width: 640px;
+    }
+
+    &_l {
+      max-width: 860px;
+    }
+  }
+
+  &__header {
+    min-height: 60px;
+    padding: $spacing-12 $spacing-20;
+    border-bottom: 1px solid var(--disabled-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-16;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  &__close {
+    @include mixins.center;
+    @include mixins.square(32px);
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__content {
+    overflow-y: auto;
+    padding: $spacing-20;
+  }
+
+  &_open {
+    animation: overlay-fade-in 0.22s ease forwards;
+
+    .modal__dialog {
+      animation: dialog-in-desktop 0.22s ease forwards;
+    }
+  }
+
+  &_closing {
+    animation: overlay-fade-out 0.18s ease forwards;
+
+    .modal__dialog {
+      animation: dialog-out-desktop 0.18s ease forwards;
+    }
+  }
+}
+
+@keyframes overlay-fade-in {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+
+  to {
+    background: rgba(0, 0, 0, 0.45);
+  }
+}
+
+@keyframes overlay-fade-out {
+  from {
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  to {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes dialog-in-desktop {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dialog-out-desktop {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+@include mixins.media-max-width($breakpoint-m) {
+  .modal {
+    padding: 0;
+    align-items: flex-end;
+
+    &__dialog {
+      max-width: none;
+      max-height: 92vh;
+      transform: translateY(40px);
+    }
+
+    &_open {
+      .modal__dialog {
+        animation: dialog-in-mobile 0.24s ease forwards;
+      }
+    }
+
+    &_closing {
+      .modal__dialog {
+        animation: dialog-out-mobile 0.2s ease forwards;
+      }
+    }
+  }
+}
+
+@keyframes dialog-in-mobile {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-out-mobile {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal,
+  .modal * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .modal {
+    background: rgba(0, 0, 0, 0.45);
+
+    &__dialog {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

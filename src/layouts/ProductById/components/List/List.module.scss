@@ -13,6 +13,92 @@
     display: flex;
     gap: $spacing-20;
   }
+
+  &__error {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-16;
+  }
+
+  &__recent {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-24;
+    padding-top: $spacing-8;
+    border-top: 1px solid var(--disabled-color);
+    overflow-x: clip;
+  }
+
+  &__recentSliderWrap {
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  &__recentSlider {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden !important;
+    padding-bottom: $spacing-8;
+  }
+
+  &__slide {
+    height: auto;
+    display: flex;
+
+    & > * {
+      width: 100%;
+    }
+  }
+
+  &__recentCard {
+    height: 100%;
+
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: none !important;
+        transform: none !important;
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        box-shadow: none !important;
+        transform: none !important;
+      }
+    }
+  }
+
+  &__sliderBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: $z-index-10;
+    border: none;
+    background: var(--primary-color);
+    color: var(--back-color-second);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.95;
+    transition: opacity 0.2s ease;
+
+    &:hover:not(:disabled) {
+      opacity: 0.75;
+    }
+
+    &_prev {
+      left: $spacing-8;
+    }
+
+    &_next {
+      right: $spacing-8;
+    }
+  }
+
   &__totalProducts {
     vertical-align: text-top;
   }

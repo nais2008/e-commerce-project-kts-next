@@ -16,9 +16,9 @@ import ProfileSkeleton from "@/components/ui/skeletons/ProfileSkeleton"
 import { confirmLogout } from "@/utils/confirmLogout"
 import { formatDate } from "@/utils/formatDate"
 
+import s from "./Me.module.scss"
 import LeftBlock from "./components/LeftBlock"
 import RightBlock from "./components/RightBlock"
-import s from "./Me.module.scss"
 
 const Me: React.FC = observer(() => {
   const authStore = useAuthStore()

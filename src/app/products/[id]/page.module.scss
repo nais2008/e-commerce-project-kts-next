@@ -9,7 +9,7 @@
       gap: $spacing-24;
       width: 100%;
 
-    &:has(.retryButton) {
+      &:has(.retryButton) {
         @include mixins.center;
       }
     }

@@ -13,19 +13,28 @@ export async function getProducts(
   page: number,
   pageSize: number = PAGE_SIZE,
   search: string = "",
-  categoryId?: number
+  categoryId?: number,
+  discountMin?: number,
+  discountMax?: number
 ) {
   const queryParams = {
     populate: ["images", "productCategory"],
-    pagination: {
-      page: page,
-      pageSize: pageSize,
-    },
+    pagination: { page, pageSize },
     filters: {
       ...(search ? { title: { $containsi: search } } : {}),
       ...(categoryId ? { productCategory: { id: { $eq: categoryId } } } : {}),
+
+      ...(discountMin !== undefined || discountMax !== undefined
+        ? {
+            discountPercent: {
+              ...(discountMin !== undefined ? { $gte: discountMin } : {}),
+              ...(discountMax !== undefined ? { $lte: discountMax } : {}),
+            },
+          }
+        : {}),
     },
   }
+
   const queryString = qs.stringify(queryParams, {
     encode: false,
     indices: false,
@@ -36,7 +45,6 @@ export async function getProducts(
   const { data } = await apiClient.get<ApiResponse<IProductToList[]>>(
     `${ENDPOINTS.product.list()}?${queryString}`
   )
-
   return data
 }
 

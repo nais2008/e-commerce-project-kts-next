@@ -83,6 +83,8 @@ class AuthStore implements ILocalStore {
   private _setToken(token: string) {
     localStorage.setItem("jwt", token)
     this._jwt = token
+    queryClient.invalidateQueries({ queryKey: ["auth", "me"] })
+    queryClient.invalidateQueries({ queryKey: ["cart", "list"] })
   }
 
   login(credentials: AuthCredentials) {
@@ -97,6 +99,7 @@ class AuthStore implements ILocalStore {
     localStorage.removeItem("jwt")
     this._jwt = null
     queryClient.removeQueries({ queryKey: ["auth", "me"] })
+    queryClient.removeQueries({ queryKey: ["cart", "list"] })
   }
 
   get isAuthenticated(): boolean {
