@@ -8,6 +8,11 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
 import Heading from "@/components/ui/Heading"
 
+import {
+  DISCOUNT_RANGE_BOUNDS,
+  parseRangeParams,
+} from "@/utils/parseRangeParams"
+
 import s from "./page.module.scss"
 
 export const metadata: Metadata = {
@@ -20,24 +25,46 @@ interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
+const parseCategoryId = (value: string | string[] | undefined) => {
+  if (typeof value !== "string") return undefined
+
+  const parsed = Number(value)
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined
+}
+
 const Page = async ({ searchParams }: PageProps) => {
   const params = await searchParams
 
   const search = typeof params.search === "string" ? params.search : ""
-  const categoryId =
-    typeof params.category === "string" ? Number(params.category) : undefined
+  const categoryId = parseCategoryId(params.category)
+
+  const discountRange = parseRangeParams(
+    typeof params.discountMin === "string" ? params.discountMin : undefined,
+    typeof params.discountMax === "string" ? params.discountMax : undefined,
+    DISCOUNT_RANGE_BOUNDS
+  )
+
   const pageSize = 9
 
   const queryClient = getQueryClient()
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["products", search, categoryId, pageSize],
+    queryKey: [
+      "products",
+      search,
+      categoryId,
+      discountRange.filterMin,
+      discountRange.filterMax,
+      pageSize,
+    ],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await getProducts(
         pageParam,
         pageSize,
         search,
-        categoryId
+        categoryId,
+        discountRange.filterMin,
+        discountRange.filterMax
       )
 
       return {

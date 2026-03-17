@@ -1,0 +1,52 @@
+@use "@/styles/variables" as *;
+
+.slider {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  touch-action: none;
+  user-select: none;
+  height: 20px;
+
+  &__track {
+    position: relative;
+    width: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+    background: var(--disabled-color);
+    height: 4px;
+  }
+
+  &__range {
+    position: absolute;
+    background: var(--accent-color);
+    height: 100%;
+  }
+
+  &__thumb {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: var(--accent-color);
+    border: 2px solid var(--back-color-second);
+    box-shadow: var(--shadow);
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease;
+
+    &:hover {
+      transform: scale(1.06);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent-color-light);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+}

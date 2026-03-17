@@ -3,19 +3,48 @@
 
 .filters {
   display: flex;
-  gap: $spacing-12;
+  flex-direction: column;
+  gap: $spacing-20;
   width: 100%;
-  align-items: center;
 
-  @include mixins.media-max-width($breakpoint-s) {
-    flex-direction: column;
-    align-items: stretch;
+  &__topRow {
+    display: flex;
+    gap: $spacing-12;
+    width: 100%;
+    align-items: center;
+
+    @include mixins.media-max-width($breakpoint-s) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  &__ranges {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacing-20;
+
+    @include mixins.media-max-width($breakpoint-m) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__range {
+    background: var(--back-color-second);
+    padding: $spacing-16;
+    border: 1px solid var(--disabled-color);
   }
 
   &__input {
     flex: 1;
   }
+
   &__dropDown {
+    min-width: 200px;
     height: 100%;
+  }
+
+  @include mixins.media-max-width($breakpoint-s) {
+    flex-direction: column;
   }
 }

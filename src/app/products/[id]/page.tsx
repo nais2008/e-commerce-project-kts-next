@@ -2,12 +2,12 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { getQueryClient } from "@/api/reactQuery"
+import Product from "@/layouts/ProductById"
 import { getProductById, getProducts } from "@/services/products"
+import { Params } from "@/shared/type/productId.type"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
 import s from "./page.module.scss"
-import { Params } from "@/shared/type/productId.type"
-import Product from "@/layouts/ProductById"
 
 export async function generateMetadata({
   params,

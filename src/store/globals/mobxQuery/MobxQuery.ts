@@ -80,9 +80,10 @@ class MobxQuery<
   startTracking() {
     const unsubscribeReaction = reaction(
       () => this.defaultQueryOptions,
-      () => {
-        this.queryObserver.setOptions(this.defaultQueryOptions)
-      }
+      (options) => {
+        this.queryObserver.setOptions(options)
+      },
+      { fireImmediately: true }
     )
 
     const unsubscribeObserver = this.queryObserver.subscribe(() => {

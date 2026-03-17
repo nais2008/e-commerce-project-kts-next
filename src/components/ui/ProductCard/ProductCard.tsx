@@ -16,6 +16,7 @@ type Props = {
   isAuth?: boolean
   onAddToCart?: () => void
   inCart?: boolean
+  className?: string
 }
 
 const ProductCard: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const ProductCard: React.FC<Props> = ({
   isAuth,
   onAddToCart,
   inCart,
+  className,
 }) => {
   const router = useRouter()
 
@@ -44,6 +46,7 @@ const ProductCard: React.FC<Props> = ({
 
   return (
     <Card
+      className={className}
       key={product.id}
       title={product.title}
       subtitle={product.description}
